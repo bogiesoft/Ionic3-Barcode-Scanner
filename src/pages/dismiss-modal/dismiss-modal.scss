@@ -1,0 +1,18 @@
+page-dismiss-modal {
+	.modalTitle {
+		font-size: 20px;
+		padding-left: 10px;
+	}
+
+	.modalContent {
+		color: gray;
+		padding-left: 10px;
+	}
+
+	.dismissBtn {
+		bottom: 5px;
+    	position: absolute;
+        width: 90%;
+    	left: 5%;
+	}
+}

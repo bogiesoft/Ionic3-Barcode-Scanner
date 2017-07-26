@@ -1,0 +1,11 @@
+{
+  "name": "Biyo",
+  "app_id": "94c7d694",
+  "type": "ionic-angular",
+  "proxies": [
+    {
+      "path": "/api",
+      "proxyUrl": "http://v1.mapidev.dashboard.center/api"
+    }
+  ]
+}

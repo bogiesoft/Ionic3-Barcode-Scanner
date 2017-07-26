@@ -1,0 +1,92 @@
+<!--
+  Generated template for the EmployeepinPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-toolbar>
+
+  	<ion-buttons left>
+	  	<button ion-button icon-only color="primary" class="setup_btn" (click)="goToSetupPage()">
+	  		<ion-icon name="settings"></ion-icon>
+	  	</button>
+	</ion-buttons>
+
+  	<ion-title>Employee PIN</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content padding class="employee_content">
+	<ion-list>
+		<img src="assets/img/logo.png" class="logo"/>
+		<ion-label color="primary" class="enter_pin">Enter Employee PIN</ion-label>
+		<div>
+            <div class="row pincode-row">
+                <div class="col col-10 col-offset-15 pincode-col">
+                	{{passcode1}}
+                </div>
+                <div class="col col-10 col-offset-10 pincode-col">
+                	{{passcode2}}
+                </div>
+                <div class="col col-10 col-offset-10 pincode-col">
+                	{{passcode3}}
+                </div>
+                <div class="col col-10 col-offset-10 pincode-col">
+                	{{passcode4}}
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 50px">
+            <div class="row pin-number">
+                <div class="col col-20 col-offset-20">
+                    <button color="light" ion-button outline (click)="add1()">1</button>
+                </div>
+                <div class="col col-20">
+                    <button color="light" ion-button outline (click)="add2()">2</button>
+                </div>
+                <div class="col col-20">
+                    <button color="light" ion-button outline (click)="add3()">3</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-20 col-offset-20">
+                    <button color="light" ion-button outline (click)="add4()">4</button>
+                </div>
+                <div class="col col-20">
+                    <button color="light" ion-button outline (click)="add5()">5</button>
+                </div>
+                <div class="col col-20">
+                    <button color="light" ion-button outline (click)="add6()">6</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-20 col-offset-20">
+                    <button color="light" ion-button outline (click)="add7()">7</button>
+                </div>
+                <div class="col col-20">
+                    <button color="light" ion-button outline (click)="add8()">8</button>
+                </div>
+                <div class="col col-20">
+                    <button color="light" ion-button outline (click)="add9()">9</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-20 col-offset-20">
+                    <button color="light" ion-button outline></button>
+                </div>
+                <div class="col col-20">
+                    <button color="light" ion-button outline (click)="add0()">0</button>
+                </div>
+                <div class="col col-20">
+                    <button color="light" ion-button outline icon-olny (click)="delete()">
+                    	<ion-icon name="md-arrow-round-back"></ion-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+	</ion-list>	
+</ion-content>
