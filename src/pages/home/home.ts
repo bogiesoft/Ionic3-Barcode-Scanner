@@ -3,7 +3,7 @@ import { NavController } from 'ionic-angular';
 import {NativeStorage} from 'ionic-native'
 
 import { SetupPage } from '../setup/setup';
-import { EmployeepinPage } from '../employeepin/employeepin';
+//import { EmployeepinPage } from '../employeepin/employeepin';
 
 import { GlobalServiceProvider } from '../../providers/global-service/global-service';
 
@@ -14,10 +14,20 @@ import { GlobalServiceProvider } from '../../providers/global-service/global-ser
 export class HomePage {
 	
   constructor(public navCtrl: NavController, public globalServiceProvider: GlobalServiceProvider) {
+
+    NativeStorage.getItem('dashboardurl')
+    .then(
+      data => {
+        this.globalServiceProvider.setBaseURL(data);
+        console.log("setBaseURL : ", data);
+      },
+      error => console.error(error)
+    );
+
   	NativeStorage.getItem('token')
 	  .then(
 	    data => {
-        this.navCtrl.setRoot(EmployeepinPage);
+        this.navCtrl.setRoot(SetupPage);
         this.globalServiceProvider.setIDToken(data);
       },
 	    error => console.error(error)

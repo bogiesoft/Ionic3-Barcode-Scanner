@@ -24,68 +24,16 @@
 	<ion-list>
 		<img src="assets/img/logo.png" class="logo"/>
 		<ion-label color="primary" class="enter_pin">Enter Employee PIN</ion-label>
-		<div>
+
+        <div class="pin-number">
             <div class="row pincode-row">
-                <div class="col col-10 col-offset-15 pincode-col">
-                	{{passcode1}}
-                </div>
-                <div class="col col-10 col-offset-10 pincode-col">
-                	{{passcode2}}
-                </div>
-                <div class="col col-10 col-offset-10 pincode-col">
-                	{{passcode3}}
-                </div>
-                <div class="col col-10 col-offset-10 pincode-col">
-                	{{passcode4}}
-                </div>
-            </div>
-        </div>
-        <div style="margin-top: 50px">
-            <div class="row pin-number">
-                <div class="col col-20 col-offset-20">
-                    <button color="light" ion-button outline (click)="add1()">1</button>
-                </div>
-                <div class="col col-20">
-                    <button color="light" ion-button outline (click)="add2()">2</button>
-                </div>
-                <div class="col col-20">
-                    <button color="light" ion-button outline (click)="add3()">3</button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col col-20 col-offset-20">
-                    <button color="light" ion-button outline (click)="add4()">4</button>
-                </div>
-                <div class="col col-20">
-                    <button color="light" ion-button outline (click)="add5()">5</button>
-                </div>
-                <div class="col col-20">
-                    <button color="light" ion-button outline (click)="add6()">6</button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col col-20 col-offset-20">
-                    <button color="light" ion-button outline (click)="add7()">7</button>
-                </div>
-                <div class="col col-20">
-                    <button color="light" ion-button outline (click)="add8()">8</button>
-                </div>
-                <div class="col col-20">
-                    <button color="light" ion-button outline (click)="add9()">9</button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col col-20 col-offset-20">
-                    <button color="light" ion-button outline></button>
-                </div>
-                <div class="col col-20">
-                    <button color="light" ion-button outline (click)="add0()">0</button>
-                </div>
-                <div class="col col-20">
-                    <button color="light" ion-button outline icon-olny (click)="delete()">
-                    	<ion-icon name="md-arrow-round-back"></ion-icon>
-                    </button>
-                </div>
+                <ion-input type="number" max="9" min="0" #passcodeInput1 class="col col-10 col-offset-15 pincode-col" [(ngModel)]="pin.passcode1" (ngModelChange)="addPasscode1()"></ion-input>
+                
+                <ion-input type="number" max="9" min="0" #passcodeInput2 class="col col-10 col-offset-10 pincode-col" [(ngModel)]="pin.passcode2" (ngModelChange)="addPasscode2()"></ion-input>
+                
+                <ion-input type="number" max="9" min="0" #passcodeInput3 class="col col-10 col-offset-10 pincode-col" [(ngModel)]="pin.passcode3" (ngModelChange)="addPasscode3()"></ion-input>
+                
+                <ion-input type="number" max="9" min="0" #passcodeInput4 class="col col-10 col-offset-10 pincode-col" [(ngModel)]="pin.passcode4" (ngModelChange)="addPasscode4()"></ion-input>
             </div>
         </div>
 	</ion-list>	

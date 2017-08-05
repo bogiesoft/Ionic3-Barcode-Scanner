@@ -15,7 +15,7 @@ import { NetworkServiceProvider } from '../network-service/network-service';
 export class ApiServiceProvider {
 
   isSyncNeeded: boolean;
-
+  
   constructor(public http: Http, public networkServiceProvider: NetworkServiceProvider, public globalServiceProvider: GlobalServiceProvider) {
     console.log('Hello ApiServiceProvider Provider');
     console.log('this.networkServiceProvider.isConnected :', this.networkServiceProvider.getConnectionStatus());
@@ -30,7 +30,6 @@ export class ApiServiceProvider {
 	      if (self.networkServiceProvider.getConnectionStatus()) {
 
 	        let requestData = {
-	          dashboardurl: params.dashboardurl,
 	          password: params.password,
 	          username: params.username
 	        };
@@ -39,11 +38,12 @@ export class ApiServiceProvider {
 	          'Accept': 'application/json',
 	        });
 	        let options = new RequestOptions({headers: headers});
-
-	        self.http.post(Constants.API_URL + '/rest-auth/login/', requestData, options)
+          console.log('Login RequestData :', requestData);
+	        self.http.post(this.globalServiceProvider.getBaseURL() + '/rest-auth/login/', requestData, options)
 	        .map(res => res.json())
 	        .subscribe(response => {
 	          console.log('success login response : ', response);
+            console.log('Login response : ', response);
 	          resolve(response);
 	        }, err => {
 	          console.log('login failed: ', err);
@@ -58,6 +58,37 @@ export class ApiServiceProvider {
   }
 
   preFill(param){
+    let self = this;
+    return new Promise((resolve, reject) => {
+
+      if (self.networkServiceProvider.getConnectionStatus()) {
+
+        let headers = new Headers({
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Token ' + self.globalServiceProvider.getIDToken()
+        });
+        let options = new RequestOptions({headers: headers});
+
+        self.http.get(this.globalServiceProvider.getBaseURL() + '/mobile-api/products/' + param + '/', options)
+          .map(res => res.json())
+          .subscribe(response => {
+            console.log('success Prefill response : ', response);
+            resolve(response);
+        }, err => {
+          console.log('prefill error : ', err);
+          reject('PreFill is failed');
+        });
+
+      } else {
+
+          alert("Network connection error!");
+      }
+
+    });
+  }
+
+  preFillfromDB(param){
     let self = this;
     return new Promise((resolve, reject) => {
 
@@ -87,6 +118,39 @@ export class ApiServiceProvider {
     });
   }
 
+  checkBarcode(param){
+    let self = this;
+    return new Promise((resolve, reject) => {
+
+      if (self.networkServiceProvider.getConnectionStatus()) {
+
+        let headers = new Headers({
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Token ' + self.globalServiceProvider.getIDToken()
+        });
+        let options = new RequestOptions({headers: headers});
+        let requestData = {
+            barcode: param
+         };
+        self.http.post(this.globalServiceProvider.getBaseURL() + '/mobile-api/check-barcode/', requestData, options)
+          .map(res => res.json())
+          .subscribe(response => {
+            console.log('success checkBarcode response : ', response);
+            resolve(response);
+        }, err => {
+          console.log('checkBarcode error : ', err);
+          reject('checkBarcode is failed');
+        });
+
+      } else {
+
+          alert("Network connection error!");
+      }
+
+    });
+  }
+
   getCategories() {
 
     let self = this;
@@ -101,8 +165,8 @@ export class ApiServiceProvider {
           'Authorization': 'Token ' + self.globalServiceProvider.getIDToken()
         });
         let options = new RequestOptions({headers: headers});
-
-        self.http.get(Constants.API_URL + '/mobile-api/categories/', options)
+        console.log('getCategories Token : ', self.globalServiceProvider.getIDToken());
+        self.http.get(this.globalServiceProvider.getBaseURL() + '/mobile-api/categories/', options)
 	        .map(res => res.json())
 	        .subscribe(response => {
 	          console.log('success getCategories response : ', response);
@@ -128,24 +192,8 @@ export class ApiServiceProvider {
     return new Promise((resolve, reject) => {
 
       if (self.networkServiceProvider.getConnectionStatus()) {
-     //  	let requestData = {
-	    //       name: params.name,
-	    //       cost: params.cost,
-	    //       price: params.price,
-	    //       barcode: params.barcode,
-	    //       stock: params.stock,
-	    //       description: params.category,
-     //        color: 1,
-     //        sorting: 0,
-     //        tax_status: 1,
-     //        active: 0,
-     //        archived: 0,
-     //        price_adjust: 1,
-     //        print_to: 0,
-     //        tax_rate: 1
-	    // };
 
-      console.log('addproduct() barcode : ', params.barcode );
+        console.log('addproduct() barcode : ', params.barcode );
         let requestData = {
            "name": params.name,
            "color": 1,
@@ -154,14 +202,14 @@ export class ApiServiceProvider {
            "price": params.price,
            "barcode": params.barcode,
            "stock": params.stock,
-           "tax_status": 1,
-           "active": 1,
+           "tax_status": params.tax_status,
+           "active": 0,
            "archived": 0,
            "price_adjust": 1,
            "print_to": 0,
            "tax_rate": 1,
            "description": "qweqweeqweqweqweqweqweqweqw",
-           "categories": [1]
+           "categories": params.category
         }
 
         let headers = new Headers({
@@ -172,8 +220,8 @@ export class ApiServiceProvider {
         console.log('Token : ' + self.globalServiceProvider.getIDToken());
         console.log('RequestData : ' + requestData);
         let options = new RequestOptions({headers: headers});
-
-        self.http.post(Constants.API_URL + '/mobile-api/products/', requestData, options)
+        console.log('Tax_status : ', params.tax_status);
+        self.http.post(this.globalServiceProvider.getBaseURL() + '/mobile-api/products/', requestData, options)
 	        .map(res => res.json())
 	        .subscribe(response => {
 	          console.log('success addproduct response : ', response);
@@ -209,6 +257,81 @@ export class ApiServiceProvider {
 
   }
 
+  updateProduct(params) {
+
+      let self = this;
+
+      return new Promise((resolve, reject) => {
+
+        if (self.networkServiceProvider.getConnectionStatus()) {
+
+          console.log('addproduct() barcode : ', params.barcode );
+          let requestData = {
+             "name": params.name,
+             "color": 1,
+             "sorting": "0",
+             "cost": params.cost,
+             "price": params.price,
+             "barcode": params.barcode,
+             "stock": params.stock,
+             "tax_status": params.tax_status,
+             "active": 0,
+             "archived": params.archived,
+             "price_adjust": 1,
+             "print_to": 0,
+             "tax_rate": 1,
+             "description": "qweqweeqweqweqweqweqweqweqw",
+             "categories": params.category
+          }
+
+          let headers = new Headers({
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Token ' + self.globalServiceProvider.getIDToken()
+          });
+          let options = new RequestOptions({headers: headers});
+          console.log('Tax_status : ', params.tax_status);
+          console.log('request data', JSON.stringify(requestData));
+          self.http.patch(this.globalServiceProvider.getBaseURL() + '/mobile-api/products/' + params._id + '/', requestData, options)
+            .map(res => res.json())
+            .subscribe(response => {
+              console.log('success update response : ', response);
+              resolve(response);
+          }, err => {
+            console.log('response Error : ', err);
+            let returnError = err;
+
+            if (err._body){
+              let error = JSON.parse(err._body);
+
+              returnError = '';
+
+              for (var key in error) {
+                  // skip loop if the property is from prototype
+                  if (!error.hasOwnProperty(key)) continue;
+
+                  var obj = error[key];
+                  for (var prop in obj) {
+                      // skip loop if the property is from prototype
+                      if(!obj.hasOwnProperty(prop)) continue;
+
+                      returnError = returnError + obj[prop];
+                      console.log('error : ',prop + " = " + obj[prop]);
+                  }
+              }
+            }
+            reject(returnError);
+          });
+
+        } else {
+
+            alert("Network connection error!");
+        }
+
+      });
+
+    }
+
   checkPin() {
 
     let self = this;
@@ -224,7 +347,7 @@ export class ApiServiceProvider {
         });
         let options = new RequestOptions({headers: headers});
 
-        self.http.get(Constants.API_URL + '/mobile-api/check-pin/', options)
+        self.http.get(this.globalServiceProvider.getBaseURL() + '/mobile-api/check-pin/', options)
 	        .map(res => res.json())
 	        .subscribe(response => {
 	          console.log('success getProjects response : ', response);

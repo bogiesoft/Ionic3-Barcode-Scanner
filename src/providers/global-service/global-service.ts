@@ -14,7 +14,7 @@ import * as Constant from '../constants/constants';
 export class GlobalServiceProvider {
 
   id_token: string;
-  syncCnt: number;
+  base_url: string;
 
   constructor(public http: Http) {
     console.log('Hello GlobalServiceProvider Provider');
@@ -26,6 +26,14 @@ export class GlobalServiceProvider {
 
   setIDToken(id_token) {
     this.id_token = id_token;
+  }
+
+  getBaseURL(){
+    return this.base_url;
+  }
+
+  setBaseURL(base_url) {
+    this.base_url = base_url;
   }
 
 }

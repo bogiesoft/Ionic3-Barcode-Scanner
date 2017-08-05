@@ -99,6 +99,9 @@ export class SetupPage {
       return;
     }
 
+    this.globalServiceProvider.setBaseURL(this.saveForm.dashboardurl);
+    console.log('this.globalServiceProvider.getBaseURL() : ', this.globalServiceProvider.getBaseURL());
+
     let self = this;
     let loader = this.loading.create({
       content: '',
@@ -115,11 +118,11 @@ export class SetupPage {
       self.native.value = (response as any).key;
       NativeStorage.setItem(this.native.key,this.native.value).then((d)=>{
             console.log('storage save',d);
-            this.showToast('successfuly saved!');
+            this.showToast('Successfuly Saved!');
 
           },(e)=>{
             console.log('unable to save',e);
-            this.showToast('unable to be saved!');
+            this.showToast('Unable to be saved!');
       })
 
       this.savedUserName.key = 'username';

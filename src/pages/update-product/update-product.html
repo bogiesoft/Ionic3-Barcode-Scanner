@@ -9,12 +9,12 @@
   <ion-toolbar>
 
   	<ion-buttons left>
-	  	<button ion-button icon-only color="primary" class="logout_btn" (click)="goToSetupPage()">
+	  	<button ion-button icon-only color="primary" class="logout_btn" (click)="goToAddProductPage()">
 	  		<ion-icon name="power"></ion-icon>
 	  	</button>
 	</ion-buttons>
 
-  	<ion-title>Add Product</ion-title>
+  	<ion-title>Update Existing Product</ion-title>
   </ion-toolbar>
 
 </ion-header>
@@ -67,8 +67,8 @@
   		</ion-col>
   		<ion-col>
   			<ion-item class="tax_status_item">
-		      <ion-label class="tax_status_label"> Tax Status</ion-label>
-		      <ion-toggle [(ngModel)]="product.tax_status">Tax Status</ion-toggle>
+		      <ion-label class="tax_status_label"> Taxed </ion-label>
+		      <ion-toggle [(ngModel)]="product.tax_status">Taxed</ion-toggle>
 		    </ion-item>
   		</ion-col>
   	 </ion-row>
@@ -77,15 +77,17 @@
   		<ion-col>
   			<!-- <ion-item> -->
   				<button ion-button block color="light" class="cancel-btn" (click)="Cancel()">Cancel</button>
-  			<!-- </ion-item>-->		
+  			<!-- </ion-item>  	 -->		
   		</ion-col>
   		<ion-col>
   			<!-- <ion-item class="tax_status_item"> -->
-		      <button ion-button block class="addproduct-btn" item-end (click)="AddProduct()">Add Product</button>
+		      <button ion-button block class="addproduct-btn" item-end (click)="updateProduct()">Update Product</button>
 		    <!-- </ion-item> -->
   		</ion-col>
   	 </ion-row>
 
+  	 <button ion-button block class="delete-btn" color="danger" (click)="DelProduct()">Delete Product</button>
+     
 	</ion-list>
 
 </ion-content>

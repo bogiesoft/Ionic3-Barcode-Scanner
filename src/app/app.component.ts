@@ -7,6 +7,7 @@ import { HomePage } from '../pages/home/home';
 import { AddproductPage } from '../pages/addproduct/addproduct';
 import { EmployeepinPage } from '../pages/employeepin/employeepin';
 import { SetupPage } from '../pages/setup/setup';
+import { UpdateProductPage } from '../pages/update-product/update-product';
 
 @Component({
   templateUrl: 'app.html'

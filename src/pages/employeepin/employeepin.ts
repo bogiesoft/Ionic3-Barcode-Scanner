@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { SetupPage } from '../setup/setup';
 import { AddproductPage } from '../addproduct/addproduct';
@@ -14,17 +14,27 @@ import { AddproductPage } from '../addproduct/addproduct';
   templateUrl: 'employeepin.html',
 })
 export class EmployeepinPage {
- 
-  public passcode1 : string;
-  public passcode2 : string;
-  public passcode3 : string;
-  public passcode4 : string;
+
+  pin: any;
+
+  @ViewChild('passcodeInput1') passcodeInput1;
+  @ViewChild('passcodeInput2') passcodeInput2;
+  @ViewChild('passcodeInput3') passcodeInput3;
+  @ViewChild('passcodeInput4') passcodeInput4;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-  	this.passcode1 = '';
-    this.passcode2 = '';
-    this.passcode3 = '';
-    this.passcode4 = '';
+
+   setTimeout(() => {
+      this.passcodeInput1.setFocus();
+    },150);
+   
+   this.pin = {
+     passcode1: '',
+     passcode2: '',
+     passcode3: '',
+     passcode4: ''
+   }
+
   }
 
   ionViewDidLoad() {
@@ -35,82 +45,46 @@ export class EmployeepinPage {
   	this.navCtrl.setRoot(SetupPage);
   }
 
-  add1(){
-    this.AddNumber(1);
-  }
-
-  add2(){
-    this.AddNumber(2); 
-  }
-
-  add3(){
-    this.AddNumber(3);
-  }
-
-  add4(){
-    this.AddNumber(4);
-  }
-
-  add5(){
-    this.AddNumber(5);
-  }
-
-  add6(){
-    this.AddNumber(6);
-  }
-
-  add7(){
-    this.AddNumber(7);
-  }
-
-  add8(){
-    this.AddNumber(8);
-  }
-
-  add9(){
-    this.AddNumber(9);
-  }
-
-  add0(){
-    this.AddNumber(0);
-  }
-
-  delete(){
-    if (this.passcode4) {
-      this.passcode4 = '';
-    } else {
-      if (this.passcode3){
-        this.passcode3 = '';
-      } else {
-        if(this.passcode2) {
-          this.passcode2 = '';
-        } else {
-          if(this.passcode1) {
-            this.passcode1 = '';
-          }
-        }
-      }
+  addPasscode1() {
+    if ( this.pin.passcode1 ) {
+      setTimeout(() => {
+        this.passcodeInput2.setFocus();
+      },50);
+       
     }
   }
 
-  AddNumber(num) {
-    if(this.passcode1) {
-      if(this.passcode2) {
-        if(this.passcode3) {
-          if(this.passcode4) {
-            this.navCtrl.setRoot(AddproductPage);
-          } else {
-            this.passcode4 = num;
-            this.navCtrl.setRoot(AddproductPage);
-          }
-        } else {
-          this.passcode3 = num;
-        }
-      } else {
-        this.passcode2 = num;
-      }
+  addPasscode2() {
+    if ( this.pin.passcode2 ) {
+       setTimeout(() => {
+          this.passcodeInput3.setFocus();
+        },50);
     } else {
-      this.passcode1 = num;
+      setTimeout(() => {
+        this.passcodeInput1.setFocus();
+      },50);
+    }
+  }
+
+  addPasscode3() {
+    if ( this.pin.passcode3 ) {
+      setTimeout(() => {
+        this.passcodeInput4.setFocus();
+      },50);
+    } else {
+      setTimeout(() => {
+        this.passcodeInput2.setFocus();
+      },50);
+    }
+  }
+
+  addPasscode4() {
+    if ( this.pin.passcode4 ) {
+      this.navCtrl.setRoot(AddproductPage);
+    } else {
+      setTimeout(() => {
+        this.passcodeInput3.setFocus();
+      },50);
     }
   }
 }
